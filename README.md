@@ -1,2 +1,2 @@
 # Numerical-Analysis
-program homeword of Numerical Analysis course
+The program homework of Numerical Analysis course
