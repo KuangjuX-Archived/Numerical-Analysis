@@ -19,7 +19,6 @@ class Largrange:
             for k in range(0, n):
                 if i != k:
                     div_num = div_num * (self.samples[i].x - self.samples[k].x)
-            # print("div_num: {} yi: {}".format(div_num, self.samples[i].y))
             item_fn = (item_fn / div_num) * self.samples[i].y
             fn = fn + item_fn
         return fn
