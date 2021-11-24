@@ -1,4 +1,5 @@
 import interp
+from interp.lagrange import Largrange
 from interp.newton import Netwon
 
 def test_vandermonde():
@@ -13,6 +14,14 @@ def test_newton():
     fn = newton.netwon()
     other_samples = interp.point_sample(10, 1, 5, 1, 1, 1, 1)
     interp.point_test(fn, other_samples)
+
+def test_lagrange():
+    samples = interp.point_sample(10, 1, 5, 1, 1, 1, 1)
+    lagrange = Largrange(samples)
+    fn = lagrange.largrange()
+    other_samples = interp.point_sample(10, 1, 5, 1, 1, 1, 1)
+    interp.point_test(fn, other_samples)
+
 
 
 
