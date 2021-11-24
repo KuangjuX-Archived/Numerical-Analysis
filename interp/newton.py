@@ -34,7 +34,7 @@ class Netwon:
         # print(self.table)
     
     # 牛顿插值法计算
-    def netwon(self):
+    def interp(self):
         # 获取均差表
         self._div_table()
         # 构造多项式参数
