@@ -1,4 +1,3 @@
-from random import sample
 import numpy as np
 from typing import List
 from . import Point, PolyFn
