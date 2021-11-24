@@ -8,3 +8,10 @@ The program homework of Numerical Analysis course
 - [牛顿插值法](./interp/newton.py)
 - [分段线性插值](./interp/piece_linear.py)
 - [分段三次 Hermite 插值](./interp/hermite.py)
+
+## Usage
+```shell
+git clone https://github.com/KuangjuX/Numerical-Analysis.git
+pip install -r requirements.txt
+python example.py
+```

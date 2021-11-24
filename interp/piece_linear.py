@@ -20,7 +20,6 @@ class PieceLinear:
 
     def cal(self, x: float):
         for item in self.poly:
-            # print("a: {}, b: {}".format(item.a, item.b))
             if x >= item.a and x <= item.b:
                 y = item.fn(x)
                 return y 

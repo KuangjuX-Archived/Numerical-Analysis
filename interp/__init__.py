@@ -7,6 +7,9 @@ class Point:
     def __init__(self, x: float, y: float):
         self.x = x
         self.y = y
+    
+    def derivative(self, d):
+        self.d = d
 
 
 class PolyFn:
@@ -16,6 +19,13 @@ class PolyFn:
         # 多项式区间，a 表示左边界, b 表示右边界
         self.a = a 
         self.b = b
+
+
+# 对于给定三角函数求导并计算给定点导数
+def point_derivative(x: float, c: float, d: float, e: float, f: float):
+    y = c * d * math.cos(d * x) - e * f * math.sin(f * x)
+    return y
+
 
 # 根据给定区间以及点数对点进行采样
 def point_sample(n: int, a: float, b: float, c: float, d: float, e: float, f: float):
