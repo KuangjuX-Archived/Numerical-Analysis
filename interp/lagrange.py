@@ -21,4 +21,8 @@ class Largrange:
                     div_num = div_num * (self.samples[i].x - self.samples[k].x)
             item_fn = (item_fn / div_num) * self.samples[i].y
             fn = fn + item_fn
+        self.fn = fn
         return fn
+
+    def cal(self, x: float):
+        return self.fn(x)

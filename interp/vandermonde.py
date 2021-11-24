@@ -21,11 +21,9 @@ class Vandermonde:
         # 计算范德蒙矩阵矩阵的结果   
         res = list(reversed(np.linalg.solve(matrix, y)))
         # 获取对应的多项式函数
-        func = np.poly1d(res)
-        # 画图进行模拟
-        # x = np.linspace(1, 5, 30)
-        # y = func(x)
-        # plt.plot(x, y)
-        # plt.show()
-        # 返回多项式函数
-        return func
+        fn = np.poly1d(res)
+        self.fn = fn
+        return fn
+
+    def cal(self, x: float):
+        return self.fn(x)

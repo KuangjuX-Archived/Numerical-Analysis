@@ -48,6 +48,9 @@ class Netwon:
                     item = item * [1]
                 elif j > 0:
                     item = item * [1, -self.samples[j - 1].x]
-            print(item)
             fn = fn + item
+        self.fn = fn
         return fn
+
+    def cal(self, x):
+        return self.fn(x)
