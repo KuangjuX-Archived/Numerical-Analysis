@@ -32,10 +32,23 @@ class Netwon:
                 f = self._div_diff(x1, x2, y1, y2)
                 k_table.append(f)
             self.table.append(k_table)
-        print(self.table)
+        # print(self.table)
     
     # 牛顿插值法计算
     def netwon(self):
         # 获取均差表
         self._div_table()
         # 构造多项式参数
+        n = len(self.samples)
+        fn = np.poly1d([0])
+        for i in range(0, n):
+            # 对每一项都构造多项式最后迭代相加
+            item = np.poly1d([self.table[i][i]])
+            for j in range(0, i + 1):
+                if j == 0:
+                    item = item * [1]
+                elif j > 0:
+                    item = item * [1, -self.samples[j - 1].x]
+            print(item)
+            fn = fn + item
+        return fn
