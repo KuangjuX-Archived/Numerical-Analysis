@@ -2,7 +2,6 @@ import numpy as np
 import random
 import math 
 from typing import List
-import matplotlib.pyplot as plt
 
 class Point:
     def __init__(self, x: float, y: float):
@@ -51,6 +50,9 @@ def vandermonde(samples: List[Point], n: int):
     # plt.show()
     # 返回多项式函数
     return func
+
+
+
 
 
 
