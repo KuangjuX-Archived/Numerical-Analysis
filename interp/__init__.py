@@ -28,7 +28,7 @@ def point_derivative(x: float, c: float, d: float, e: float, f: float):
 
 
 # 根据给定区间以及点数对点进行采样
-def point_sample(n: int, a: float, b: float, c: float, d: float, e: float, f: float):
+def random_sample(n: int, a: float, b: float, c: float, d: float, e: float, f: float):
     points = []
     for _ in range(n):
         x = a + random.random() * (b - a)
