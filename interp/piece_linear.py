@@ -25,3 +25,10 @@ class PieceLinear:
                 return y 
         print("[Debug] 要计算的值不在给定区间中")
         return 0
+
+    def vector_cal(self, x):
+        y = []
+        for item_x in x:
+            item_y = self.cal(item_x)
+            y.append(item_y)
+        return y
