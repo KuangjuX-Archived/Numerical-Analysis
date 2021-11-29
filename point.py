@@ -26,7 +26,7 @@ def point_derivative(x: float, c: float, d: float, e: float, f: float):
     return y
 
 
-# 根据给定区间以及点数对点进行采样
+# 根据给定区间以及点数对点进行采样(插值法)
 def random_sample(n: int, a: float, b: float, c: float, d: float, e: float, f: float):
     points = []
     for _ in range(n):
@@ -35,7 +35,7 @@ def random_sample(n: int, a: float, b: float, c: float, d: float, e: float, f: f
         points.append(Point(x, y))
     return points
 
-# 根据给定区间以及点数，计算固定步长进行采样
+# 根据给定区间以及点数，计算固定步长进行采样(插值法)
 def fixed_sample(n: int, a: float, b: float, c: float, d: float, e: float, f: float):
     points = []
     step = (b - a) / n 
@@ -47,3 +47,10 @@ def fixed_sample(n: int, a: float, b: float, c: float, d: float, e: float, f: fl
     y = c * math.sin(d * x) + e * math.cos(f * x)
     points.append(Point(x, y))
     return points
+
+def random_x(a: int, b: int, n: int):
+    x_axis = []
+    for _ in range(0, n):
+        x = random.random() * (b - a) + a 
+        x_axis.append(x)
+    return x_axis

@@ -1,3 +1,4 @@
+from approx.best_square import BestSquare
 import point
 import interp
 from draw import Drawer
@@ -6,6 +7,7 @@ from interp.lagrange import Largrange
 from interp.newton import Netwon
 from interp.piece_linear import PieceLinear
 from interp.vandermonde import Vandermonde
+import numpy as np
 
 def test_vandermonde():
     print("范德蒙德插值法")
@@ -105,13 +107,32 @@ def test_hermite():
     drawer.draw_interp(a, b, c, d, e, f, hermite.vector_cal, 'Cubic Hermite Method')
 
 
+def test_best_square():
+    c = 1
+    std_fn = 1.0 / np.poly1d([c, 1 << 63, 1])
+    # print("std_fn: {}".format(std_fn))
+    # print("std_fn(2): {}".format(std_fn(2)))
+    k = 3
+    a = 1
+    b = 5
+    best_square = BestSquare(k, std_fn, a, b)
+    best_square.fit()
+    samples = point.random_x(a, b, 10)
+    for sample in samples:
+        std_val = std_fn(sample)
+        app_val = best_square.cal(sample)
+        err = abs(std_val - app_val)
+        print("标准函数计算的结果为：{}, 逼近函数计算的结果为: {}, 误差为: {}".format(std_val, app_val, err))
+
+
 
 def example():
-    test_vandermonde()
-    test_lagrange()
-    test_newton()
-    test_piecelinear()
-    test_hermite()
+    # test_vandermonde()
+    # test_lagrange()
+    # test_newton()
+    # test_piecelinear()
+    # test_hermite()
+    test_best_square()
 
 if __name__ == '__main__':
     example()
