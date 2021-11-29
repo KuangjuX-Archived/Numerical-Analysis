@@ -1,6 +1,8 @@
 import numpy as np
 from typing import List
-from . import Point, PolyFn
+from sys import path
+path.append('..')
+from point import Point, PolyFn
 
 class PieceLinear:
     def __init__(self, samples: List[Point]):

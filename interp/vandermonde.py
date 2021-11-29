@@ -1,6 +1,8 @@
 import numpy as np
 from typing import List
-from .import Point 
+from sys import path
+path.append('..')
+from point import Point 
 
 
 class Vandermonde:
