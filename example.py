@@ -113,8 +113,6 @@ def test_best_square(a: float, b: float, c: int, k: int, n: int):
     samples = point.random_x(a, b, n)
     target_fn = TargetFn(c)
     for sample in samples:
-        # std_val = std_fn(sample)
-        # print("sample: {}".format(sample))
         std_val = target_fn.fn(sample)
         app_val = best_square.cal(sample)
         err = abs(std_val - app_val)

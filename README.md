@@ -7,7 +7,11 @@ The program homework of Numerical Analysis course
 - [拉格朗日插值法](./interp/lagrange.py)
 - [牛顿插值法](./interp/newton.py)
 - [分段线性插值](./interp/piece_linear.py)
-- [分段三次 Hermite 插值](./interp/hermite.py)
+- [分段三次 Hermite 插值](./interp/hermite.py)  
+
+### 函数逼近
+- [最佳平方逼近](./approx/best_square.py)
+- [最小二乘法逼近](./approx/least_squares.py)
 
 ## Usage
 ```shell
