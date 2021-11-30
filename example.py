@@ -1,5 +1,7 @@
+from random import sample
 from approx import TargetFn
 from approx.best_square import BestSquare
+from approx.least_squares import LeastSquare
 import point
 import interp
 from draw import Drawer
@@ -109,17 +111,30 @@ def test_hermite():
 
 def test_best_square(a: float, b: float, c: int, k: int, n: int):
     best_square = BestSquare(k, a, b, c)
-    best_square.fit()
+    # best_square.fit()
+    best_square.legrand_fit()
     samples = point.random_x(a, b, n)
     target_fn = TargetFn(c)
     for sample in samples:
         std_val = target_fn.fn(sample)
-        app_val = best_square.cal(sample)
+        app_val = best_square.cal((1 / (b - a)) * (2 * sample - a - b))
         err = abs(std_val - app_val)
         print("标准函数计算的结果为：{}, 逼近函数计算的结果为: {}, 误差为: {}".format(std_val, app_val, err))
     drawer = Drawer()
-    drawer.cmp_draw(a, b, target_fn.fn, best_square.cal, 'Best Square Method')
+    drawer.legendre_cmp_draw(a, b, target_fn.fn, best_square.cal, 'Best Square Method')
 
+def test_least_square(a: float, b: float, c: int, n: int):
+    samples = point.approx_fixed_sample(n, a, b, c)
+    # print("samples: {}".format(samples))
+    # print(samples)
+    least_square = LeastSquare(a, b, c, samples)
+    least_square.fit()
+    other_samples = point.approx_random_sample(10, a, b, c)
+    for sample in other_samples:
+        std_val = sample.y
+        app_val = least_square.cal(sample.x)
+        err = abs(std_val - app_val)
+        print("标准函数计算的结果为：{}, 逼近函数计算的结果为: {}, 误差为: {}".format(std_val, app_val, err))
 
 
 def example():
@@ -128,7 +143,8 @@ def example():
     # test_newton()
     # test_piecelinear()
     # test_hermite()
-    test_best_square(0, 5, 4, 10, 10)
+    # test_best_square(1, 5, 1, 4, 10)
+    test_least_square(1, 5, 1, 5)
 
 if __name__ == '__main__':
     example()

@@ -1,4 +1,5 @@
 from scipy import integrate
+from scipy.special.orthogonal import legendre
 
 class TargetFn:
     def __init__(self, c):
@@ -23,6 +24,10 @@ def product_fn_2(x, pow_1, pow_2):
 def integral(fn, a: int, b: int):
     return integrate.quad(fn, a, b)
 
+def mul_fn(x: float, f, c: int):
+    target = TargetFn(c)
+    return target.fn(x) * f(x)
+
 # 求两函数内积
 def inner_product(f1, f2, a: int, b: int):
     fn = f1 * f2 
@@ -34,3 +39,7 @@ def inner_product_2(pow_0, a: int, b: int, c: int):
 def inner_product_3(pow_1, pow_2, a: int, b: int):
     f = product_fn_2
     return integrate.quad(f, a, b, args=(pow_1, pow_2))
+
+def inner_product_4(f, a: float, b: float, c: int):
+    return integrate.quad(mul_fn, a, b, args=(f, c))
+    

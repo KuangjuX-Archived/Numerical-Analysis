@@ -1,5 +1,7 @@
-import numpy as np 
-from . import inner_product_2, inner_product_3
+import numpy as np
+from scipy.special import legendre
+from scipy import integrate
+from . import TargetFn, inner_product, inner_product_2, inner_product_3, inner_product_4, mul_fn
 
 class BestSquare:
     def __init__(self, k: int, a: float, b: float, c: int):
@@ -9,6 +11,7 @@ class BestSquare:
         self.a = a
         self.b = b
         self.c = c
+        self.f = np.poly1d([0])
 
     def _make_matrix(self):
         # 建立矩阵
@@ -21,7 +24,17 @@ class BestSquare:
             self.right.append(res)
             self.left.append(row)
 
-
+    def legrand_fit(self):
+        # 使用勒让德多项式作为正交多项式进行拟合
+        self.coefficients = []
+        for i in range(0, self.k + 1):
+            (res, _) = integrate.quad(mul_fn, -1, 1, args=(legendre(i), self.c))
+            res *= ((2 * i + 1) / 2)
+            # print("i: {}, res: {}".format(i, res))
+            self.coefficients.append(res)
+        # print("勒让德多项式系数: {}".format(self.coefficients))
+        for i in range(0, self.k + 1):
+            self.f += (self.coefficients[i] * legendre(self.k - i))
 
     def fit(self):
         # 函数拟合，实际上就是根据次数解矩阵，最后把系数求出来

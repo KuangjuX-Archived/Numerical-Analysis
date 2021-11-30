@@ -54,3 +54,23 @@ def random_x(a: int, b: int, n: int):
         x = random.random() * (b - a) + a 
         x_axis.append(x)
     return x_axis
+
+def approx_fixed_sample(n: int, a: float, b: float, c: float):
+    points = []
+    step = (b - a) / n 
+    for i in range(n):
+        x = i * step + a 
+        y = 1 / ((c * x * x) + 1)
+        points.append(Point(x, y))
+    x = b 
+    y = 1 / ((c * x * x) + 1)
+    points.append(Point(x, y))
+    return points
+
+def approx_random_sample(n: int, a: float, b: float, c: float):
+    points = []
+    for _ in range(n):
+        x = a + random.random() * (b - a)
+        y = 1 / ((c * x * x) + 1)
+        points.append(Point(x, y))
+    return points
