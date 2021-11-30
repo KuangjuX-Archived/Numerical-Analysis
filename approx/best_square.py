@@ -1,32 +1,25 @@
 import numpy as np 
-from . import inner_product
+from . import inner_product_2, inner_product_3
 
 class BestSquare:
-    def __init__(self, k: int, std_fn, a: int, b: int):
+    def __init__(self, k: int, a: float, b: float, c: int):
         self.k = k
-        self.std_fn = std_fn
         self.left = []
         self.right = []
         self.a = a
         self.b = b
+        self.c = c
 
     def _make_matrix(self):
-        # 建造矩阵
+        # 建立矩阵
         for i in range(0, self.k + 1):
             row = []
             for j in range(0, self.k + 1):
-                f1 = np.poly1d([1 for _ in range(0, i + 1)])
-                f2 = np.poly1d([1 for _ in range(0, j + 1)])
-                (res, _) = inner_product(f1, f2, self.a, self.b)
-                # print("row res: {}".format(res))
+                (res, _) = inner_product_3(i, j, self.a, self.b)
                 row.append(res)
-            f1 = self.std_fn
-            f2 = np.poly1d([1 for _ in range(0, i + 1)])
-            (res, _) = inner_product(f1, f2, self.a, self.b)
-            # print("col res: {}".format(res))
+            (res, _) = inner_product_2(i, self.a, self.b, self.c)
             self.right.append(res)
             self.left.append(row)
-        print("left: {}, right: {}".format(self.left, self.right))
 
 
 
@@ -35,7 +28,6 @@ class BestSquare:
         self._make_matrix()
         res = list(reversed(np.linalg.solve(self.left, self.right)))
         f = np.poly1d(res)
-        print("f: {}".format(f))
         self.f = f
 
     def cal(self, x: int):
