@@ -32,7 +32,6 @@ class BestSquare:
             res *= ((2 * i + 1) / 2)
             self.coefficients.append(res)
         for i in range(0, self.k + 1):
-            # print("a[{}]: {}".format(i, self.coefficients[i]))
             self.f += (self.coefficients[i] * legendre(i))
 
     def fit(self):

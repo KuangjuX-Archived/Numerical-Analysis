@@ -17,9 +17,9 @@ class LeastSquare:
     def fit(self):
         A = []
         B = []
-        for i in range(0, self.k):
+        for i in range(0, self.k + 1):
             row = []
-            for j in range(0, self.k):
+            for j in range(0, self.k + 1):
                 res = 0
                 for item in self.samples:
                     res += pow(item.x, i + j)
