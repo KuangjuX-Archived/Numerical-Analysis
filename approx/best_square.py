@@ -28,13 +28,12 @@ class BestSquare:
         # 使用勒让德多项式作为正交多项式进行拟合
         self.coefficients = []
         for i in range(0, self.k + 1):
-            (res, _) = integrate.quad(mul_fn, -1, 1, args=(legendre(i), self.c))
+            (res, _) = integrate.quad(mul_fn, -1, 1, args=(legendre(i), self.a, self.b, self.c))
             res *= ((2 * i + 1) / 2)
-            # print("i: {}, res: {}".format(i, res))
             self.coefficients.append(res)
-        # print("勒让德多项式系数: {}".format(self.coefficients))
         for i in range(0, self.k + 1):
-            self.f += (self.coefficients[i] * legendre(self.k - i))
+            # print("a[{}]: {}".format(i, self.coefficients[i]))
+            self.f += (self.coefficients[i] * legendre(i))
 
     def fit(self):
         # 函数拟合，实际上就是根据次数解矩阵，最后把系数求出来

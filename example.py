@@ -114,14 +114,17 @@ def test_best_square(a: float, b: float, c: int, k: int, n: int):
     # best_square.fit()
     best_square.legrand_fit()
     samples = point.random_x(a, b, n)
-    target_fn = TargetFn(c)
+    target_fn = TargetFn(a, b, c)
     for sample in samples:
-        std_val = target_fn.fn(sample)
-        app_val = best_square.cal((1 / (b - a)) * (2 * sample - a - b))
+        std_val = target_fn.fn(sample, False)
+        app_val = best_square.cal(((1 / (b - a)) * (2 * sample - a - b)))
+        # app_val = best_square.cal(sample)
+        # app_val = best_square.cal((b - a) * sample + a + b)
         err = abs(std_val - app_val)
         print("标准函数计算的结果为：{}, 逼近函数计算的结果为: {}, 误差为: {}".format(std_val, app_val, err))
     drawer = Drawer()
     drawer.legendre_cmp_draw(a, b, target_fn.fn, best_square.cal, 'Best Square Method')
+    # drawer.cmp_draw(a, b, target_fn.fn, best_square.cal, 'Best Square Method')
 
 def test_least_square(a: float, b: float, c: int, n: int):
     samples = point.approx_fixed_sample(n, a, b, c)
@@ -143,8 +146,8 @@ def example():
     # test_newton()
     # test_piecelinear()
     # test_hermite()
-    # test_best_square(1, 5, 1, 4, 10)
-    test_least_square(1, 5, 1, 5)
+    test_best_square(1, 5, 1, 4, 10)
+    # test_least_square(1, 5, 1, 5)
 
 if __name__ == '__main__':
     example()
