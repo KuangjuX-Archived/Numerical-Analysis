@@ -6,23 +6,22 @@ path.append('..')
 from point import Point
 
 class LeastSquare:
-    def __init__(self, a: float, b: float, c: int, samples: List[Point]):
+    def __init__(self, a: float, b: float, c: int, k: int, samples: List[Point]):
         self.a = a 
         self.b = b
         self.c = c
         self.samples = samples
         self.n = len(samples)
+        self.k = k
 
     def fit(self):
         A = []
         B = []
-        # print("n: {}".format(self.n))
-        for i in range(0, self.n):
+        for i in range(0, self.k):
             row = []
-            res = 0
-            for j in range(0, self.n):
+            for j in range(0, self.k):
+                res = 0
                 for item in self.samples:
-                    # print("x: {}, i: {}, j: {}".format(item.x, i, j))
                     res += pow(item.x, i + j)
                 row.append(res)
             y = 0
@@ -30,7 +29,6 @@ class LeastSquare:
                 y += pow(item.x, i) * item.y
             A.append(row)
             B.append(y)
-        # print("A: {}, B: {}".format(A, B))
         res = list(reversed(np.linalg.solve(A, B)))
         f = np.poly1d(res)
         self.f = f

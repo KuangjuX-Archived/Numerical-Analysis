@@ -17,6 +17,15 @@ class TargetFn:
         else:
             return (1 / ((self.c * x * x) + 1))
 
+    def legrand_fn(self, x: int):
+        a = self.a 
+        b = self.b 
+        t = ((b - a) / 2) * x + ((b + a) / 2)
+        return (1 / ((self.c * t * t) + 1))
+    
+    def normal_fn(self, x: int):
+        return (1 / ((self.c * x * x) + 1))
+
 # def build_fn(x: int, c: int):
 #     return (1 / ((c * x * x) + 1))
 

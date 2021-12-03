@@ -126,11 +126,10 @@ def test_best_square(a: float, b: float, c: int, k: int, n: int):
     drawer.legendre_cmp_draw(a, b, target_fn.fn, best_square.cal, 'Best Square Method')
     # drawer.cmp_draw(a, b, target_fn.fn, best_square.cal, 'Best Square Method')
 
-def test_least_square(a: float, b: float, c: int, n: int):
+def test_least_square(a: float, b: float, c: int, n: int, k: int):
     samples = point.approx_fixed_sample(n, a, b, c)
-    # print("samples: {}".format(samples))
-    # print(samples)
-    least_square = LeastSquare(a, b, c, samples)
+    target_fn = TargetFn(a, b, c)
+    least_square = LeastSquare(a, b, c, k, samples)
     least_square.fit()
     other_samples = point.approx_random_sample(10, a, b, c)
     for sample in other_samples:
@@ -138,6 +137,8 @@ def test_least_square(a: float, b: float, c: int, n: int):
         app_val = least_square.cal(sample.x)
         err = abs(std_val - app_val)
         print("标准函数计算的结果为：{}, 逼近函数计算的结果为: {}, 误差为: {}".format(std_val, app_val, err))
+    drawer = Drawer()
+    drawer.cmp_draw(a, b, target_fn.normal_fn, least_square.cal, 'Least Square Method')
 
 
 def example():
@@ -146,8 +147,8 @@ def example():
     # test_newton()
     # test_piecelinear()
     # test_hermite()
-    test_best_square(1, 5, 1, 4, 10)
-    # test_least_square(1, 5, 1, 5)
+    # test_best_square(1, 5, 1, 4, 10)
+    test_least_square(1, 5, 1, 100, 4)
 
 if __name__ == '__main__':
     example()
