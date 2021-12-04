@@ -11,7 +11,7 @@ The program homework of Numerical Analysis course
 
 ### 函数逼近
 - [最佳平方逼近](./approx/best_square.py)
-- [最小二乘法逼近](./approx/least_squares.py)
+- [最小二乘法拟合](./approx/least_squares.py)
 
 ## Usage
 ```shell
