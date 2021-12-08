@@ -1,7 +1,7 @@
-from random import sample
 from approx import TargetFn
 from approx.best_square import BestSquare
 from approx.least_squares import LeastSquare
+from integration import romberg, stdintegrate, trapezodial
 import point
 import interp
 from draw import Drawer
@@ -141,6 +141,19 @@ def test_least_square(a: float, b: float, c: int, n: int, k: int):
     drawer.cmp_draw(a, b, target_fn.normal_fn, least_square.cal, 'Least Square Method(k = 3)')
 
 
+# 复化梯形公式
+def test_trapezodial(a: float, b: float, h: float, delta: float):
+    integrate = trapezodial(a, b, h)
+    std_integrate = stdintegrate(a, b)
+    err = abs(integrate - std_integrate)
+    if err < delta: 
+        print("标准函数积分值为: {}, 数值积分值为: {}, 误差为: {}".format(std_integrate, integrate, err))
+
+# 龙贝格积分测试
+def test_romberg(a: float, b: float, delta: float):
+    romberg(a, b, delta)
+
+
 def example():
     # test_vandermonde()
     # test_lagrange()
@@ -148,7 +161,9 @@ def example():
     # test_piecelinear()
     # test_hermite()
     # test_best_square(1, 5, 1, 3, 10)
-    test_least_square(1, 5, 1, 100, 3)
+    # test_least_square(1, 5, 1, 100, 3)
+    test_trapezodial(1, 5, 0.025, 0.0001)
+    test_romberg(1, 5, 0.0001)
 
 if __name__ == '__main__':
     example()
