@@ -54,8 +54,9 @@ def romberg(a: float, b: float, delta: float):
                 table[k][m] = (pow(4, m)/(pow(4, m) - 1)) * table[k][m - 1] - (1/((pow(4, m) - 1))) * table[k-1][m - 1]
             err = abs(std_integrate - table[k][m])
             if err < delta:
+                h = (b - a) / pow(2, k)
                 print("标准函数积分值为: {}, 数值积分值为: {}, 误差为: {}".format(std_integrate, table[k][m], err))
-                print("此时 m = {}, k = {}".format(m, k))
+                print("此时 m = {}, k = {}, h = {}".format(m, k, h))
                 break
         k += 1
     

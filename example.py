@@ -142,12 +142,18 @@ def test_least_square(a: float, b: float, c: int, n: int, k: int):
 
 
 # 复化梯形公式
-def test_trapezodial(a: float, b: float, h: float, delta: float):
-    integrate = trapezodial(a, b, h)
-    std_integrate = stdintegrate(a, b)
-    err = abs(integrate - std_integrate)
-    if err < delta: 
-        print("标准函数积分值为: {}, 数值积分值为: {}, 误差为: {}".format(std_integrate, integrate, err))
+def test_trapezodial(a: float, b: float, delta: float):
+    i = 1
+    while True:
+        h = (b - a)/ pow(2, i)
+        integrate = trapezodial(a, b, h)
+        std_integrate = stdintegrate(a, b)
+        err = abs(integrate - std_integrate)
+        if err < delta: 
+            print("标准函数积分值为: {}, 数值积分值为: {}, 误差为: {}".format(std_integrate, integrate, err))
+            print("此时被分成 {} 等份, h = {}".format(pow(2, i), h))
+            return 
+        i += 1
 
 # 龙贝格积分测试
 def test_romberg(a: float, b: float, delta: float):
@@ -162,7 +168,7 @@ def example():
     # test_hermite()
     # test_best_square(1, 5, 1, 3, 10)
     # test_least_square(1, 5, 1, 100, 3)
-    test_trapezodial(1, 5, 0.025, 0.0001)
+    test_trapezodial(1, 5, 0.0001)
     test_romberg(1, 5, 0.0001)
 
 if __name__ == '__main__':
