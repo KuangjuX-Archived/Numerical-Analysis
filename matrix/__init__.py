@@ -20,8 +20,8 @@ class Matrix:
     def random_non_singular_matrix(size):
         random_matrix = np.random.rand(size, size) * 100
         random_vector = np.random.rand(1, size) * 100
-        print("random_matrix: {}".format(random_matrix))
-        print("random_vector: {}".format(random_vector))
+        # print("random_matrix: {}".format(random_matrix))
+        # print("random_vector: {}".format(random_vector))
         return (random_matrix, random_vector[0])
 
     # 以列为主元的高斯消元法
@@ -69,8 +69,8 @@ class Matrix:
     # LU 矩阵分解
     def _LU_decomposition(self):
         # 初始化 LU 矩阵
-        L = np.array([[0 for _ in range(0, self.m)] for _ in range(0, self.m)])
-        U = np.array([[0 for _ in range(0, self.m)] for _ in range(0, self.m)])
+        L = np.array([[0.0 for _ in range(0, self.m)] for _ in range(0, self.m)])
+        U = np.array([[0.0 for _ in range(0, self.m)] for _ in range(0, self.m)])
 
         # 迭代求解 LU 矩阵的系数
         for r in range(0, self.m):

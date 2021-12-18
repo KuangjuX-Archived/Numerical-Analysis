@@ -164,27 +164,30 @@ def test_romberg(a: float, b: float, delta: float):
     romberg(a, b, delta)
 
 def test_gaussian_elimination():
-    # A = np.array([
-    #     [31, -13, 0, 0, 0, -10, 0, 0, 0 ],
-    #     [-13, 35, -9, 0, -11, 0, 0, 0, 0],
-    #     [0.0, -9, 31, -10, 0, 0, 0, 0, 0],
-    #     [0, 0, -10, 79, -30, 0, 0, 0, -9],
-    #     [0, 0, 0, -30, 57, -7, 0, -5, 0 ],
-    #     [0, 0, 0, 0, -7, 47, -30 , 0, 0 ],
-    #     [0, 0, 0, 0, 0, -30, 41, 0, 0   ],
-    #     [0, 0, 0, 0, -5, 0, 0, 27, -2   ],
-    #     [0, 0, 0, -9, 0, 0, 0, -2, 29   ]
-    # ])
-    # B = np.array([-15.0, 27, -23, 0, -20, 12, -7, 7, 10])
-    # matrix = Matrix(A, B)
-    # ans = matrix.slove()
-    # x = matrix.gaussian_slove()
+    A = np.array([
+        [31, -13, 0, 0, 0, -10, 0, 0, 0 ],
+        [-13, 35, -9, 0, -11, 0, 0, 0, 0],
+        [0.0, -9, 31, -10, 0, 0, 0, 0, 0],
+        [0, 0, -10, 79, -30, 0, 0, 0, -9],
+        [0, 0, 0, -30, 57, -7, 0, -5, 0 ],
+        [0, 0, 0, 0, -7, 47, -30 , 0, 0 ],
+        [0, 0, 0, 0, 0, -30, 41, 0, 0   ],
+        [0, 0, 0, 0, -5, 0, 0, 27, -2   ],
+        [0, 0, 0, -9, 0, 0, 0, -2, 29   ]
+    ])
+    B = np.array([-15.0, 27, -23, 0, -20, 12, -7, 7, 10])
+    matrix = Matrix(A, B)
+    ans = matrix.slove()
+    x = matrix.gaussian_slove()
+    print("---------------------使用高斯消元法求解给定的矩阵 --------------------")
+    print("正确结果为: {}".format(ans))
+    print("使用高斯消元法计算出的结果为: {}".format(x))
 
     (random_matrix, random_vector) = Matrix.random_non_singular_matrix(20)
     matrix = Matrix(random_matrix, random_vector)
     ans = matrix.slove()
     x = matrix.gaussian_slove()
-
+    print("---------------------使用高斯消元法求解随机生成的矩阵 --------------------")
     print("正确结果为: {}".format(ans))
     print("使用高斯消元法计算出的结果为: {}".format(x))
 
@@ -205,11 +208,16 @@ def test_LU():
     matrix = Matrix(A, B)
     ans = matrix.slove()
     (L, U, x) = matrix.LU_decomposition_slove()
+    print("---------------------使用 LU 分解法求解给定的矩阵 --------------------")
+    print("正确结果为: {}".format(ans))
+    print("使用 LU 分解法计算出的结果为: {}".format(x))
+    # print("L 为: {}, \nU 为: {}".format(L, U))
 
     (random_matrix, random_vector) = Matrix.random_non_singular_matrix(20)
     matrix = Matrix(random_matrix, random_vector)
     ans = matrix.slove()
     (L, U, x) = matrix.LU_decomposition_slove()
+    print("---------------------使用 LU 分解法求解随机生成的矩阵 --------------------")
     print("正确结果为: {}".format(ans))
     print("使用 LU 分解法计算出的结果为: {}".format(x))
     # print("L 为: {}, \nU 为: {}".format(L, U))
@@ -227,7 +235,7 @@ def example():
     # test_trapezodial(1, 5, 0.0001)
     # test_romberg(1, 5, 0.0001)
     test_gaussian_elimination()
-    # test_LU()
+    test_LU()
 
 if __name__ == '__main__':
     example()
