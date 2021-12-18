@@ -2,6 +2,7 @@ from approx import TargetFn
 from approx.best_square import BestSquare
 from approx.least_squares import LeastSquare
 from integration import romberg, stdintegrate, trapezodial
+from matrix import Matrix
 import point
 import interp
 from draw import Drawer
@@ -10,6 +11,8 @@ from interp.lagrange import Largrange
 from interp.newton import Netwon
 from interp.piece_linear import PieceLinear
 from interp.vandermonde import Vandermonde
+
+import numpy as np
 
 def test_vandermonde():
     print("范德蒙德插值法")
@@ -159,6 +162,25 @@ def test_trapezodial(a: float, b: float, delta: float):
 def test_romberg(a: float, b: float, delta: float):
     romberg(a, b, delta)
 
+def test_gaussian_elimination():
+    A = np.array([
+        [31, -13, 0, 0, 0, -10, 0, 0, 0 ],
+        [-13, 35, -9, 0, -11, 0, 0, 0, 0],
+        [0.0, -9, 31, -10, 0, 0, 0, 0, 0],
+        [0, 0, -10, 79, -30, 0, 0, 0, -9],
+        [0, 0, 0, -30, 57, -7, 0, -5, 0 ],
+        [0, 0, 0, 0, -7, 47, -30 , 0, 0 ],
+        [0, 0, 0, 0, 0, -30, 41, 0, 0   ],
+        [0, 0, 0, 0, -5, 0, 0, 27, -2   ],
+        [0, 0, 0, -9, 0, 0, 0, -2, 29   ],
+    ])
+    B = np.array([-15.0, 27, -23, 0, -20, 12, -7, 7, 10])
+    matrix = Matrix(A, B)
+    ans = matrix.slove()
+    count = matrix.gaussian_slove()
+    print("正确结果为: {}".format(ans))
+    print("使用高斯消元法计算出的结果为: {}".format(count))
+
 
 def example():
     # test_vandermonde()
@@ -168,8 +190,9 @@ def example():
     # test_hermite()
     # test_best_square(1, 5, 1, 3, 10)
     # test_least_square(1, 5, 1, 100, 3)
-    test_trapezodial(1, 5, 0.0001)
-    test_romberg(1, 5, 0.0001)
+    # test_trapezodial(1, 5, 0.0001)
+    # test_romberg(1, 5, 0.0001)
+    test_gaussian_elimination()
 
 if __name__ == '__main__':
     example()

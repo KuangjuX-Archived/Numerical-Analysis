@@ -17,6 +17,9 @@ The program homework of Numerical Analysis course
 - [复合梯形公式](./integration/__init__.py)
 - [龙贝格算法](./integration/__init__.py)
 
+### 解线性方程组的直接解法
+- [列主元的高斯消元法](./matrix/__init__.py)
+
 ## Usage
 ```shell
 git clone https://github.com/KuangjuX/Numerical-Analysis.git
