@@ -1,3 +1,4 @@
+from random import gauss
 from approx import TargetFn
 from approx.best_square import BestSquare
 from approx.least_squares import LeastSquare
@@ -172,7 +173,7 @@ def test_gaussian_elimination():
         [0, 0, 0, 0, -7, 47, -30 , 0, 0 ],
         [0, 0, 0, 0, 0, -30, 41, 0, 0   ],
         [0, 0, 0, 0, -5, 0, 0, 27, -2   ],
-        [0, 0, 0, -9, 0, 0, 0, -2, 29   ],
+        [0, 0, 0, -9, 0, 0, 0, -2, 29   ]
     ])
     B = np.array([-15.0, 27, -23, 0, -20, 12, -7, 7, 10])
     matrix = Matrix(A, B)
@@ -180,6 +181,27 @@ def test_gaussian_elimination():
     count = matrix.gaussian_slove()
     print("正确结果为: {}".format(ans))
     print("使用高斯消元法计算出的结果为: {}".format(count))
+
+def test_LU():
+    A = np.array([
+        [30.0, 33, -43, -11, -38, -29, 37, 28, 23                ],
+        [-480, -523, 644, 128, 621, 480, -618, -489, -329      ],
+        [60, 266, -1862, -1991, 464, 546, -968, -1567, 1652    ],
+        [540, 624, -782, 290, -893, 123, 567, 5, -122          ], 
+        [-450, -675, 2245, 2326, -1512, 1230, -822, 129, -189  ], 
+        [-300, -120, -1114, -1295, 1946, 302, -376, -1540, -609],
+        [1080, 998, 508, 2460, -1628, -1358, 2896, 2828, -2002 ],  
+        [-1080, -1408, 3340, 2267, 21, -1202, 866, -2690, -1351],
+        [-300, -435, 1594, 1685, 340, 2279, -27, 2917, -2336   ]
+    ])
+    B = np.array([188.0, -3145, -4994, 680, 7845, 1876, 8712, -11599, 10127])
+
+    matrix = Matrix(A, B)
+    ans = matrix.slove()
+    count = matrix.LU_decomposition_slove()
+    print("正确结果为: {}".format(ans))
+    print("使用 LU 分解法计算出的结果为: {}".format(count))
+
 
 
 def example():
@@ -192,7 +214,8 @@ def example():
     # test_least_square(1, 5, 1, 100, 3)
     # test_trapezodial(1, 5, 0.0001)
     # test_romberg(1, 5, 0.0001)
-    test_gaussian_elimination()
+    # test_gaussian_elimination()
+    test_LU()
 
 if __name__ == '__main__':
     example()

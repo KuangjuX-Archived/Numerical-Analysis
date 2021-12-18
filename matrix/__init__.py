@@ -18,6 +18,7 @@ class Matrix:
         self.vector[i] = self.vector[j]
         self.vector[j] = temp
 
+    # 以列为主元的高斯消元法
     def _gaussian_elimination(self):
         for i in range(0, self.m):
             # 从第 0 行 至最后一行进行消元
@@ -55,6 +56,39 @@ class Matrix:
 
     def gaussian_slove(self):
         return self._gaussian_elimination()
+
+    # LU 矩阵分解
+    def _LU_decomposition(self):
+        # 初始化 LU 矩阵
+        L = np.array([[0 for _ in range(0, self.m)] for _ in range(0, self.m)])
+        U = np.array([[0 for _ in range(0, self.m)] for _ in range(0, self.m)])
+
+        # 迭代求解 LU 矩阵的系数
+        for r in range(0, self.m):
+            L[r][r] = 1
+            if r == 0:
+                U[0] = self.matrix[0]
+                for i in range(1, self.m):
+                    L[i][0] = self.matrix[i][0] / U[0][0]
+            else:
+                for i in range(r, self.m):
+                    sum = 0
+                    for k in range(0, r):
+                        sum += L[r][k] * U[k][i]
+                    U[r][i] = self.matrix[r][i] - sum
+                for i in range(r + 1, self.m):
+                    sum = 0
+                    for k in range(0, r):
+                        sum += L[i][k] * U[k][r]
+                    L[i][r] = (self.matrix[i][r] - sum) / U[r][r]
+        y = np.linalg.solve(L, self.vector)
+        x = np.linalg.solve(U, y)
+        return x
+                    
+
+    def LU_decomposition_slove(self):
+        x = self._LU_decomposition()
+        return x
 
     def slove(self):
         res = np.linalg.solve(self.matrix, self.vector)

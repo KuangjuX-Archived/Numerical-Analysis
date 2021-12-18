@@ -19,6 +19,7 @@ The program homework of Numerical Analysis course
 
 ### 解线性方程组的直接解法
 - [列主元的高斯消元法](./matrix/__init__.py)
+- [LU 分解法](./matrix/__init__.py)
 
 ## Usage
 ```shell
