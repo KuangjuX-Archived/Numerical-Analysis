@@ -99,23 +99,50 @@ class Matrix:
         return self._LU_decomposition()
 
     # 高斯-塞德尔迭代
-    def gauss_seidel(self, x0, iters):
-        m, n = self.matrix.shape
-        x = x0
-        if m != n:
-            raise ValueError("A must be a square matrix.")
-        
-        for _ in range(iters):  
-            tol = 0
-            for i in range(n):  
-                x_i_old = x[i]
-                sum_new = (self.matrix[i, : i] * x[: i]).sum()
-                sum_old = (self.matrix[i, i + 1 :] * x[i + 1 :]).sum()
-                x[i] = 1 / self.matrix[i, i] * (self.vector[i] - sum_new - sum_old)
-                tol += abs(x[i] - x_i_old)      
-            if tol / n < 1e-8:
+    def gauss_seidel(self, x0, delta):
+        x = x0  
+        count = 0
+        while True:  
+            count += 1
+            max_err = 0.0
+            for i in range(self.n):
+                old_sum = 0.0
+                new_sum = 0.0
+                for j in range(0, i):
+                    new_sum += self.matrix[i][j] * x[j]
+                for j in range(i + 1, self.n):
+                    old_sum += self.matrix[i][j] * x[j]
+                old_xi = x[i]
+                x[i] = (self.vector[i] - old_sum - new_sum)/self.matrix[i][i]
+                err = abs(old_xi - x[i])
+                max_err = max(max_err, err)
+            if max_err < delta:
                 break
-        return x
+            max_err = 0
+        return (x, count)
+
+
+    def sor(self, x0, omega, delta):
+        x = x0  
+        count = 0
+        while True:  
+            count += 1
+            max_err = 0.0
+            for i in range(self.n):
+                old_sum = 0.0
+                new_sum = 0.0
+                for j in range(0, i):
+                    new_sum += self.matrix[i][j] * x[j]
+                for j in range(i, self.n):
+                    old_sum += self.matrix[i][j] * x[j]
+                old_xi = x[i]
+                x[i] = x[i] + omega * (self.vector[i] - old_sum - new_sum)/self.matrix[i][i]
+                err = abs(x[i] - old_xi)
+                max_err = max(max_err, err)
+            if max_err < delta:
+                break
+            max_err = 0
+        return (x, count)
 
     # 使用 numpy 计算的线性方程组的解，用来和我们计算的比较
     def slove(self):

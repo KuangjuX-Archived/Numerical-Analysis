@@ -1,9 +1,11 @@
+import math
 from random import gauss
 from approx import TargetFn
 from approx.best_square import BestSquare
 from approx.least_squares import LeastSquare
 from integration import romberg, stdintegrate, trapezodial
 from matrix import Matrix
+from nonlinear import NonLinear
 import point
 import interp
 from draw import Drawer
@@ -223,7 +225,6 @@ def test_LU():
     # print("L 为: {}, \nU 为: {}".format(L, U))
 
 def test_gauss_seidel():
-    ITERATION_LIMIT = 1000
     A = np.array([
         [31.0, -13, 0, 0, 0, -10, 0, 0, 0 ],
         [-13, 35, -9, 0, -11, 0, 0, 0, 0],
@@ -239,10 +240,78 @@ def test_gauss_seidel():
     matrix = Matrix(A, B)
     ans = matrix.slove()
     x0 = np.zeros_like(B)
-    x = matrix.gauss_seidel(x0, ITERATION_LIMIT)
+    x, count = matrix.gauss_seidel(x0, 1e-8)
     print("---------------------使用高斯-塞德尔方法求解给定的矩阵 --------------------")
     print("正确结果为: {}".format(ans))
-    print("使用高斯-塞德尔计算出的结果为: {}".format(x))
+    print("使用高斯-塞德尔计算出的结果为: {}, 迭代次数为 {}".format(x, count))
+
+def test_sor():
+    A = np.array([
+        [31.0, -13, 0, 0, 0, -10, 0, 0, 0 ],
+        [-13, 35, -9, 0, -11, 0, 0, 0, 0],
+        [0, -9, 31, -10, 0, 0, 0, 0, 0  ], 
+        [0, 0, -10, 79, -30, 0, 0, 0, -9],
+        [0, 0, 0, -30, 57, -7, 0, -5, 0 ],
+        [0, 0, 0, 0, -7, 47, -30, 0, 0  ],
+        [0, 0, 0, 0, 0, -30, 41, 0, 0   ],
+        [0, 0, 0, 0, -5, 0, 0, 27, -2   ],
+        [0, 0, 0, -9, 0, 0, 0, -2, 29   ]
+    ])
+    B = np.array([-15.0, 27, -23, 0, -20, 12, -7, 7, 10])
+    matrix = Matrix(A, B)
+    ans = matrix.slove()
+    x0 = np.zeros_like(B)
+    for i in range(1, 100):
+        omega = i / 50
+        x, count = matrix.sor(x0, omega, 1e-8)
+        print("---------------------使用 SOR 方法求解给定的矩阵 --------------------")
+        print("正确结果为: {}".format(ans))
+        print("使用 SOR 算法计算出的结果为: {}, 迭代次数为 {}".format(x, count))
+
+def test_nonlinear():
+    def f(x):
+        # return math.log(x*x - 3*x + 2)
+        return (x*x + 2 - math.exp(x))/3
+    def f1(x):
+        return x*x - 3*x + 2 - math.exp(x)
+
+    def g(x):
+        f = -2*x*x - 10*x + 20
+        if f > 0:
+            return pow(f, 1/3)
+        else:
+            return -pow(-f, 1/3)
+
+    def g1(x):
+        return pow(x, 3) + 2*pow(x, 2) + 10*x - 20
+
+    non_linear = NonLinear(f)
+    x0 = 0.0
+    delta = 1e-8
+    x, count = non_linear.fixed_iter(x0, delta)
+    print("------------------不动点迭代法-------------------")
+    print("求得的根为: {} 迭代次数为: {}".format(x, count))
+    x, count = non_linear.stefenson_iter(x0, delta)
+    print("------------------斯蒂芬森迭代法------------------")
+    print("求得的根为: {}, 迭代次数为: {}".format(x, count))
+    non_linear = NonLinear(f1)
+    x, count = non_linear.newton_iter(x0, delta)
+    print("------------------牛顿迭代法----------------------")
+    print("求得的根为: {}, 迭代次数为: {}".format(x, count))
+
+    non_linear = NonLinear(g)
+    x0 = 0.00
+    delta = 1e-8
+    x, count = non_linear.fixed_iter(x0, delta)
+    print("------------------不动点迭代法-------------------")
+    print("求得的根为: {} 迭代次数为: {}".format(x, count))
+    x, count = non_linear.stefenson_iter(x0, delta)
+    print("------------------斯蒂芬森迭代法------------------")
+    print("求得的根为: {}, 迭代次数为: {}".format(x, count))
+    non_linear = NonLinear(g1)
+    x, count = non_linear.newton_iter(x0, delta)
+    print("------------------牛顿迭代法----------------------")
+    print("求得的根为: {}, 迭代次数为: {}".format(x, count))
 
 
 def example():
@@ -258,6 +327,8 @@ def example():
     # test_gaussian_elimination()
     # test_LU()
     test_gauss_seidel()
+    test_sor()
+    # test_nonlinear()
 
 if __name__ == '__main__':
     example()
