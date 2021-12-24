@@ -98,8 +98,29 @@ class Matrix:
     def LU_decomposition_slove(self):
         return self._LU_decomposition()
 
+    # 高斯-塞德尔迭代
+    def gauss_seidel(self, x0, iters):
+        m, n = self.matrix.shape
+        x = x0
+        if m != n:
+            raise ValueError("A must be a square matrix.")
+        
+        for _ in range(iters):  
+            tol = 0
+            for i in range(n):  
+                x_i_old = x[i]
+                sum_new = (self.matrix[i, : i] * x[: i]).sum()
+                sum_old = (self.matrix[i, i + 1 :] * x[i + 1 :]).sum()
+                x[i] = 1 / self.matrix[i, i] * (self.vector[i] - sum_new - sum_old)
+                tol += abs(x[i] - x_i_old)      
+            if tol / n < 1e-8:
+                break
+        return x
+
+    # 使用 numpy 计算的线性方程组的解，用来和我们计算的比较
     def slove(self):
         return np.linalg.solve(self.matrix, self.vector)
+
 
 
 

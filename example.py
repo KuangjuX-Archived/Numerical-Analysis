@@ -193,7 +193,7 @@ def test_gaussian_elimination():
 
 def test_LU():
     A = np.array([
-        [30.0, 33, -43, -11, -38, -29, 37, 28, 23                ],
+        [30.0, 33, -43, -11, -38, -29, 37, 28, 23              ],
         [-480, -523, 644, 128, 621, 480, -618, -489, -329      ],
         [60, 266, -1862, -1991, 464, 546, -968, -1567, 1652    ],
         [540, 624, -782, 290, -893, 123, 567, 5, -122          ], 
@@ -222,6 +222,27 @@ def test_LU():
     print("使用 LU 分解法计算出的结果为: {}".format(x))
     # print("L 为: {}, \nU 为: {}".format(L, U))
 
+def test_gauss_seidel():
+    ITERATION_LIMIT = 1000
+    A = np.array([
+        [31.0, -13, 0, 0, 0, -10, 0, 0, 0 ],
+        [-13, 35, -9, 0, -11, 0, 0, 0, 0],
+        [0, -9, 31, -10, 0, 0, 0, 0, 0  ], 
+        [0, 0, -10, 79, -30, 0, 0, 0, -9],
+        [0, 0, 0, -30, 57, -7, 0, -5, 0 ],
+        [0, 0, 0, 0, -7, 47, -30, 0, 0  ],
+        [0, 0, 0, 0, 0, -30, 41, 0, 0   ],
+        [0, 0, 0, 0, -5, 0, 0, 27, -2   ],
+        [0, 0, 0, -9, 0, 0, 0, -2, 29   ]
+    ])
+    B = np.array([-15.0, 27, -23, 0, -20, 12, -7, 7, 10])
+    matrix = Matrix(A, B)
+    ans = matrix.slove()
+    x0 = np.zeros_like(B)
+    x = matrix.gauss_seidel(x0, ITERATION_LIMIT)
+    print("---------------------使用高斯-塞德尔方法求解给定的矩阵 --------------------")
+    print("正确结果为: {}".format(ans))
+    print("使用高斯-塞德尔计算出的结果为: {}".format(x))
 
 
 def example():
@@ -234,8 +255,9 @@ def example():
     # test_least_square(1, 5, 1, 100, 3)
     # test_trapezodial(1, 5, 0.0001)
     # test_romberg(1, 5, 0.0001)
-    test_gaussian_elimination()
-    test_LU()
+    # test_gaussian_elimination()
+    # test_LU()
+    test_gauss_seidel()
 
 if __name__ == '__main__':
     example()
