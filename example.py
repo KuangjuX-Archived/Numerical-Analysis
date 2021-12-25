@@ -227,14 +227,14 @@ def test_LU():
 def test_gauss_seidel():
     A = np.array([
         [31.0, -13, 0, 0, 0, -10, 0, 0, 0 ],
-        [-13, 35, -9, 0, -11, 0, 0, 0, 0],
-        [0, -9, 31, -10, 0, 0, 0, 0, 0  ], 
-        [0, 0, -10, 79, -30, 0, 0, 0, -9],
-        [0, 0, 0, -30, 57, -7, 0, -5, 0 ],
-        [0, 0, 0, 0, -7, 47, -30, 0, 0  ],
-        [0, 0, 0, 0, 0, -30, 41, 0, 0   ],
-        [0, 0, 0, 0, -5, 0, 0, 27, -2   ],
-        [0, 0, 0, -9, 0, 0, 0, -2, 29   ]
+        [-13, 35, -9, 0, -11, 0, 0, 0, 0  ],
+        [0, -9, 31, -10, 0, 0, 0, 0, 0    ], 
+        [0, 0, -10, 79, -30, 0, 0, 0, -9  ],
+        [0, 0, 0, -30, 57, -7, 0, -5, 0   ],
+        [0, 0, 0, 0, -7, 47, -30, 0, 0    ],
+        [0, 0, 0, 0, 0, -30, 41, 0, 0     ],
+        [0, 0, 0, 0, -5, 0, 0, 27, -2     ],
+        [0, 0, 0, -9, 0, 0, 0, -2, 29     ]
     ])
     B = np.array([-15.0, 27, -23, 0, -20, 12, -7, 7, 10])
     matrix = Matrix(A, B)
@@ -270,13 +270,12 @@ def test_sor():
 
 def test_nonlinear():
     def f(x):
-        # return math.log(x*x - 3*x + 2)
         return (x*x + 2 - math.exp(x))/3
     def f1(x):
         return x*x - 3*x + 2 - math.exp(x)
 
     def g(x):
-        f = -2*x*x - 10*x + 20
+        f = (-2)*x*x - 10*x + 20
         if f > 0:
             return pow(f, 1/3)
         else:
@@ -285,21 +284,7 @@ def test_nonlinear():
     def g1(x):
         return pow(x, 3) + 2*pow(x, 2) + 10*x - 20
 
-    non_linear = NonLinear(f)
-    x0 = 0.0
-    delta = 1e-8
-    x, count = non_linear.fixed_iter(x0, delta)
-    print("------------------不动点迭代法-------------------")
-    print("求得的根为: {} 迭代次数为: {}".format(x, count))
-    x, count = non_linear.stefenson_iter(x0, delta)
-    print("------------------斯蒂芬森迭代法------------------")
-    print("求得的根为: {}, 迭代次数为: {}".format(x, count))
-    non_linear = NonLinear(f1)
-    x, count = non_linear.newton_iter(x0, delta)
-    print("------------------牛顿迭代法----------------------")
-    print("求得的根为: {}, 迭代次数为: {}".format(x, count))
-
-    non_linear = NonLinear(g)
+    non_linear = NonLinear([f])
     x0 = 0.00
     delta = 1e-8
     x, count = non_linear.fixed_iter(x0, delta)
@@ -308,10 +293,51 @@ def test_nonlinear():
     x, count = non_linear.stefenson_iter(x0, delta)
     print("------------------斯蒂芬森迭代法------------------")
     print("求得的根为: {}, 迭代次数为: {}".format(x, count))
-    non_linear = NonLinear(g1)
+    non_linear = NonLinear([f1])
     x, count = non_linear.newton_iter(x0, delta)
     print("------------------牛顿迭代法----------------------")
     print("求得的根为: {}, 迭代次数为: {}".format(x, count))
+
+    non_linear = NonLinear([g])
+    x0 = 1.36
+    delta = 1e-8
+    x, count = non_linear.fixed_iter(x0, delta)
+    print("------------------不动点迭代法-------------------")
+    print("求得的根为: {} 迭代次数为: {}".format(x, count))
+    x, count = non_linear.stefenson_iter(x0, delta)
+    print("------------------斯蒂芬森迭代法------------------")
+    print("求得的根为: {}, 迭代次数为: {}".format(x, count))
+    non_linear = NonLinear([g1])
+    x, count = non_linear.newton_iter(x0, delta)
+    print("------------------牛顿迭代法----------------------")
+    print("求得的根为: {}, 迭代次数为: {}".format(x, count))
+
+def test_vec_nonlinear():
+    def f(x):
+        return (math.cos(x[1] * x[2]) + 0.5)/3
+    def g(x):
+        return pow((pow(x[0], 2) + math.sin(x[2]) + 1.06)/81, 1/2) - 0.1
+    def h(x):
+        return (-math.exp(-x[0] * x[1]) - (10/3)*math.pi + 1) / 20
+    
+    non_linear = NonLinear([f, g, h])
+    x0 = np.array([0.0, 0, 0])
+    delta = 1e-8
+    (x, count) = non_linear.vec_fixed_iter(x0, delta)
+    print("------------------不动点迭代法----------------------")
+    print("求得的根为: {}, 迭代次数为: {}".format(x, count))
+
+    def f2(x):
+        return 3*x[0] - math.cos(x[1] * x[2]) - 0.5
+    def g2(x):
+        return pow(x[0], 2) - 81 * pow((x[1] + 1), 2) + math.sin(x[2]) + 1.06
+    def h2(x):
+        return math.exp(-x[0] * x[1]) + 20 * x[2] + (10/3)*math.pi - 1
+    non_linear = NonLinear(np.array([f2, g2, h2])) 
+    (x, count) = non_linear.vec_newton_iter(x0, delta)
+    print("------------------牛顿迭代法----------------------")
+    print("求得的根为: {}, 迭代次数为: {}".format(x, count))
+
 
 
 def example():
@@ -326,9 +352,10 @@ def example():
     # test_romberg(1, 5, 0.0001)
     # test_gaussian_elimination()
     # test_LU()
-    test_gauss_seidel()
-    test_sor()
+    # test_gauss_seidel()
+    # test_sor()
     # test_nonlinear()
+    test_vec_nonlinear()
 
 if __name__ == '__main__':
     example()
