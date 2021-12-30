@@ -275,11 +275,7 @@ def test_nonlinear():
         return x*x - 3*x + 2 - math.exp(x)
 
     def g(x):
-        f = (-2)*x*x - 10*x + 20
-        if f > 0:
-            return pow(f, 1/3)
-        else:
-            return -pow(-f, 1/3)
+        return 20/(x*x + 2*x + 10)
 
     def g1(x):
         return pow(x, 3) + 2*pow(x, 2) + 10*x - 20
@@ -354,8 +350,8 @@ def example():
     # test_LU()
     # test_gauss_seidel()
     # test_sor()
-    # test_nonlinear()
-    test_vec_nonlinear()
+    test_nonlinear()
+    # test_vec_nonlinear()
 
 if __name__ == '__main__':
     example()
