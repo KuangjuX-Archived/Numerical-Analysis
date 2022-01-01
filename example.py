@@ -260,13 +260,20 @@ def test_sor():
     B = np.array([-15.0, 27, -23, 0, -20, 12, -7, 7, 10])
     matrix = Matrix(A, B)
     ans = matrix.slove()
-    x0 = np.zeros_like(B)
+    count_min = 1e8
+    beset_omega = 0
     for i in range(1, 100):
+        x0 = np.zeros_like(B)
         omega = i / 50
         x, count = matrix.sor(x0, omega, 1e-8)
+        if count < count_min:
+            count_min = count
+            beset_omega = omega
         print("---------------------使用 SOR 方法求解给定的矩阵 --------------------")
+        print("此时参数 omega 为: {}".format(omega))
         print("正确结果为: {}".format(ans))
         print("使用 SOR 算法计算出的结果为: {}, 迭代次数为 {}".format(x, count))
+    print("最少迭代次数为: {}, 此时 omega 为: {}".format(count_min, beset_omega))
 
 def test_nonlinear():
     def f(x):
@@ -309,6 +316,7 @@ def test_nonlinear():
     print("求得的根为: {}, 迭代次数为: {}".format(x, count))
 
 def test_vec_nonlinear():
+    print("---------------------非线性方程组-------------------")
     def f(x):
         return (math.cos(x[1] * x[2]) + 0.5)/3
     def g(x):
@@ -351,7 +359,7 @@ def example():
     # test_gauss_seidel()
     # test_sor()
     test_nonlinear()
-    # test_vec_nonlinear()
+    test_vec_nonlinear()
 
 if __name__ == '__main__':
     example()

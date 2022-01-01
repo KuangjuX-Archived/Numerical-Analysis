@@ -20,8 +20,6 @@ class Matrix:
     def random_non_singular_matrix(size):
         random_matrix = np.random.rand(size, size) * 100
         random_vector = np.random.rand(1, size) * 100
-        # print("random_matrix: {}".format(random_matrix))
-        # print("random_vector: {}".format(random_vector))
         return (random_matrix, random_vector[0])
 
     # 以列为主元的高斯消元法
@@ -37,10 +35,8 @@ class Matrix:
                     max_pos = j 
             if max_pos != i:
                 # 如果最大的列元素不在当前行，则交换当前行与列元素最大所在行
-                # print("max_pos: {}, i: {}".format(max_pos, i))
                 self._swap_matrix_row(i, max_pos)
                 self._swap_vector_row(i, max_pos)
-                # print(self.matrix)
             
             # 交换行之后进行高斯消元
             for k in range(i + 1, self.m):
@@ -48,7 +44,6 @@ class Matrix:
                 a_k = self.matrix[k][i] / self.matrix[i][i]
                 self.matrix[k] -= a_k * self.matrix[i]
                 self.vector[k] -= a_k * self.vector[i]
-            # print(self.matrix)
         
         # 消元后进行回代
         res = []
